@@ -1,0 +1,129 @@
+﻿@model IEnumerable<Category>
+
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addCategoryModal">
+    Add new Category
+</button>
+
+<table class="table table-hover table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Category Name</th>
+            <th>Category Description</th>
+            <th class="text-right" style="width:10%">İşlem</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Description</td>
+                <td class="text-right">
+                    <button type="button" class="btn btn-sm btn-warning editBtn" data-toggle="modal" data-target="#editCategoryModal" data-id="@item.Id">
+                        Edit
+                    </button>
+                    <button type="button" class="btn btn-sm btn-danger editBtn" data-toggle="modal" data-target="#deleteCategoryModal" data-id="@item.Id">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<!--ADD-->
+<div class="modal fade" tabindex="-1" role="dialog" id="addCategoryModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add new category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Category" asp-action="Add" method="post">
+                    <div class="form-group">
+                        <label for="Name">Coruse Name </label>
+                        <input type="text" id="Name" name="name" placeholder="Enter course's name" class="form-control" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Description">Description </label>
+                        <input type="text" id="Description" name="description" class="form-control" required />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-success" value="Add" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <i>
+                    Açıklama yazılacak
+                </i>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--EDIT-->
+<div class="modal fade" tabindex="-1" role="dialog" id="editCategoryModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Category" asp-action="EditCategory" method="post">
+                    <input type="hidden" name="Id" id="Id" />
+                    <div class="form-group">
+                        <label for="Name">Coruse Name </label>
+                        <input type="text" id="Name" name="name" placeholder="Enter course's name" class="form-control" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Description">Description </label>
+                        <input type="text" id="Description" name="description" class="form-control" required />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-success" value="Edit" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <i>
+                    Açıklama yazılacak
+                </i>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script type="text/javascript">
+        $(function () {
+            $(".editBtn").on("click", function () {
+                var categoryId = $(this).data("id");
+                var getCategoryUrl = "@Url.Action("GetCategory", "Category", null, "http")";
+                var fullUrl = getCategoryUrl + "/" + categoryId;
+
+                $.get(fullUrl, function (data, status) {
+                    $("input#Name").val(data.name);
+                    $("input#Description").val(data.description);
+                    $("input#Id").val(data.id);
+                });
+
+            })
+        })
+    </script>
+
+}

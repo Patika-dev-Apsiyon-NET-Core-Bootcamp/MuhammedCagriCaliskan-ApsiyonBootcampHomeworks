@@ -1,0 +1,6 @@
+﻿@model IEnumerable<Bootcamp_Hw4.Models.Store>
+
+@foreach (var item in Model)
+{
+    <a href="/Store/Menu/@item.Id" >@item.Name</a>
+}
