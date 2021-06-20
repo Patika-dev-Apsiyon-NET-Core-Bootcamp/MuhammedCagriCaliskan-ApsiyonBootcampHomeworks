@@ -1,0 +1,36 @@
+﻿@model ApiWeb.Models.User
+@{ ViewData["Title"] = "Login"; }
+
+<div class="row">
+    <div class="col-md-3">
+
+        @Html.AntiForgeryToken()
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" class="form-control" id="txtEmail" />
+            <span asp-validation-for="Email"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Password"></label>
+            <input asp-for="Password" class="form-control" id="txtPassword" />
+            <span asp-validation-for="Password"></span>
+        </div>
+        <input type="button" onclick="login()" value="Giriş" />
+
+
+@section Scripts {
+    <script>
+        function login() {
+            let email = document.getElementById("txtEmail").value;
+            let password = document.getElementById("txtPassword").value;
+            const url = `http://localhost:60178/api/acco/login?email=${email}&password=${password}`;
+            fetch(url)
+                .then(res => res.json())
+                .then(data => localStorage.setItem("token", data.token));
+        }
+    </script>
+}
