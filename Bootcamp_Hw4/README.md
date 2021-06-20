@@ -1,2 +1,2 @@
-# Hafta 4 �devi 
-Verilmi? olan �dev �er�evesinde yapmaya �al??t???m yemek sipari? uygulamas?
+# Hafta 4 Ödevi 
+Verilmiş olan ödev çerçevesinde yapmaya çalıştığım yemek sipariş uygulaması
